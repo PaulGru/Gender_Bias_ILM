@@ -40,7 +40,6 @@ from os.path import exists, getsize
 
 from invariant_trainer import InvariantTrainer
 
-from invariant_roberta import InvariantRobertaForMaskedLM, InvariantRobertaConfig
 from invariant_distilbert import InvariantDistilBertForMaskedLM, InvariantDistilBertConfig
 
 import transformers
@@ -70,13 +69,10 @@ MODEL_CONFIG_CLASSES = list(MODEL_FOR_MASKED_LM_MAPPING.keys())
 MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
 
 CONFIG_MAPPING.update({'invariant-distilbert': InvariantDistilBertConfig})
-CONFIG_MAPPING.update({'invariant-roberta': InvariantRobertaConfig})
 
 MODEL_FOR_MASKED_LM_MAPPING.update({InvariantDistilBertConfig: InvariantDistilBertForMaskedLM})
-MODEL_FOR_MASKED_LM_MAPPING.update({InvariantRobertaConfig: InvariantRobertaForMaskedLM})
 
 TOKENIZER_MAPPING.update({InvariantDistilBertConfig: (DistilBertTokenizer, DistilBertTokenizerFast)})
-TOKENIZER_MAPPING.update({InvariantRobertaConfig: (RobertaTokenizer, RobertaTokenizerFast)})
 
 @dataclass
 class ModelArguments:
@@ -389,13 +385,6 @@ def main():
                 inv_config = InvariantDistilBertConfig(envs=envs, **config_dict)
                 irm_model = InvariantDistilBertForMaskedLM(inv_config, model)
 
-            else:
-                config_dict = config.to_dict()
-                config_dict.pop("envs", None)
-                #config_dict["vocab_size"] = len(tokenizer)
-                inv_config = InvariantRobertaConfig(envs=envs, **config_dict)
-                irm_model = InvariantRobertaForMaskedLM(inv_config, model)
-
         else:
             irm_model = model
     else:
@@ -554,8 +543,6 @@ def main():
                 # Sinon on recharge un modèle invariant spécifique
                 if model_args.model_type == "distilbert":
                     best_model = InvariantDistilBertForMaskedLM.from_pretrained(best_model_path)
-                elif model_args.model_type == "roberta":
-                    best_model = InvariantRobertaForMaskedLM.from_pretrained(best_model_path)
                 else:
                     raise ValueError(f"Unknown invariant model_type: {model_args.model_type}")
 
