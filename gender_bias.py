@@ -12,8 +12,8 @@ from tqdm import tqdm
 
 # === PARAMÈTRES ===
 generated_root = "generated_splits"
-output_root = "trained_models"
-bias_output_root = "bias_outputs"
+output_root = "trained_models_2500"
+bias_output_root = "bias_outputs_2500"
 os.makedirs(bias_output_root, exist_ok=True)
 
 learning_rates = [1e-5, 5e-5]
@@ -136,7 +136,7 @@ for lr in learning_rates:
                         --train_file {train_file} \
                         --validation_file {split_dir}/val_env \
                         --do_train --do_eval \
-                        --nb_steps 100 --learning_rate {lr} \
+                        --nb_steps 2500 --learning_rate {lr} \
                         --output_dir {model_path} \
                         --seed {seed} --per_device_train_batch_size 16 \
                         --preprocessing_num_workers 8 \

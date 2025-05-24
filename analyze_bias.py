@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # === PARAMÈTRES ===
-bias_dir = "bias_outputs"
+bias_dir = "bias_outputs_2500"
 plot_path = "bias_summary_plot.png"
 
 # === CHARGER TOUS LES FICHIERS CSV ===
